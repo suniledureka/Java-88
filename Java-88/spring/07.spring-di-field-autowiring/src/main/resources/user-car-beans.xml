@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<context:annotation-config></context:annotation-config>
+	
+	<bean id="audi" class="co.edureka.spring.core.beans.Car">
+		<property name="model" value="Audi Car"/>
+		<property name="cost" value="7500000"/>
+	</bean>
+	
+	<bean id="customer" class="co.edureka.spring.core.beans.User">
+		<property name="firstName" value="Sanjay"/>
+		<property name="lastName" value="Dutt"/>		
+	</bean>
+	
+	<bean id="bmw" class="co.edureka.spring.core.beans.Car">
+		<property name="model" value="BMW Car"/>
+		<property name="cost" value="4535000.00"/>
+	</bean>	
+</beans>

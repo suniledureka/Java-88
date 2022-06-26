@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="yasodha" class="co.edureka.spring.core.beans.Hospital">
+		<property name="hospitalName" value="Yasodha Hospitals"/>
+		<property name="deptHeads">
+			<map>
+				<entry key="Reception" value="Miss. Sanjana"></entry>
+				<entry key="Operation Theatre" value="Dr.Aravind"></entry>
+				<entry key="Pharmacy" value="Mr. Kiran"/>
+			</map>
+		</property>
+	</bean>
+</beans>

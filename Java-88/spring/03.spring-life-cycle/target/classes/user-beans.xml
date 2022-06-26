@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="user1" class="co.edureka.spring.core.beans.User" init-method="myInit1" destroy-method="myDestructor">
+		<property name="firstName" value="Sunil"/>
+		<property name="lastName" value="Joseph"/>
+	</bean>
+	
+	<bean id="user2" class="co.edureka.spring.core.beans.User" init-method="myInit2" destroy-method="myDestructor">
+		<constructor-arg value="Praveen"/>
+		<constructor-arg value="Kumar"/>
+	</bean>
+</beans>

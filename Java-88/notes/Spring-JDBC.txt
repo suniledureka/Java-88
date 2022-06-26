@@ -1,0 +1,221 @@
+Spring JdbcTemplate
+===================
+
+Spring JdbcTemplate is a powerful mechanism to connect to the database and execute SQL queries. It internally uses JDBC API, but eliminates a lot of problems of JDBC API.
+
+Limitations of JDBC API
+-----------------------
+The limitations of JDBC API:
+
+(a) We need to write a lot of code before and after executing the query, such as creating connection, statement, closing resultset, connection etc.
+
+(b) We need to perform exception handling code on the database logic.
+
+(c) We need to handle transaction.
+
+(d) Repetition of all these codes from one to another database logic is a time consuming task.
+
+Spring "JdbcTemplate" eliminates all the above mentioned problems of JDBC API. It provides you methods to write the queries directly, so it saves a lot of work and time.
+
+
+
+1) create a DB table in MySQL "edureka" Database with username : root and password: root
+mysql> use edureka;
+mysql> create table emp(empno integer(5) primary key, ename varchar(25), sal float(10,2));  
+
+2) Create a Java Project in eclipse and covert it into Maven Project
+- Integrate spring-context , spring-jdbc , mysql connector dependencies in pom.xml
+from mvnrepository.com  [spring, jdbc, mysql]
+
+3) Create Entity (POJO) class to represent the database table
+
+Employee.java
+
+package co.edureka;
+
+public class Employee 
+{
+int empno;
+String ename;
+double sal;
+
+public Employee(){}
+
+public Employee(int empno, String ename, double sal) 
+{
+	super();
+	this.empno = empno;
+	this.ename = ename;
+	this.sal = sal;
+}
+
+//getter and setter methods
+
+public String toString()
+{
+  return "Employee [" + empno + " | " + ename + " | " + sal+"]";	
+}
+}
+
+3) Create an Interface 
+DAO.java
+
+package co.edureka;
+
+import java.util.List;
+
+public interface DAO {
+ void saveEmp(Employee emp);
+ void updateEmp(Employee emp);
+ void deleteEmp(int empno);
+ List<co.edureka.Employee> getEmployees();
+}
+
+
+4) Implementation Class
+
+EmployeeDAO.java
+
+package co.edureka;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
+
+public class EmployeeDAO implements DAO {
+ private JdbcTemplate jt;
+
+public JdbcTemplate getJt() {
+	return jt;
+}
+
+public void setJt(JdbcTemplate jt) {
+	this.jt = jt;
+}
+
+@Override
+public void saveEmp(Employee emp) {
+ String sql="insert into emp values("+emp.getEmpno()+",'"+emp.getEname()+"',"+emp.getSal()+")";	
+ int n=jt.update(sql);
+ System.out.println("Employee Saved-"+n);	
+}
+
+@Override
+public void updateEmp(Employee emp) {
+ String sql="update emp set ename='"+emp.getEname()+"',sal="+emp.getSal()+" where empno="+emp.getEmpno();	
+ int n=jt.update(sql);
+ if(n>0){
+   System.out.println("Employee Updated");
+ }	
+}
+
+@Override
+public void deleteEmp(int empno) {
+ String sql="delete from emp where empno="+empno;	
+ int x=jt.update(sql);
+ if(x>0)
+  System.out.println("Employee Deleted");
+ else
+  System.out.println("No matching employee found");	
+}
+
+@Override
+public List<Employee> getEmployees() {
+ String sql="select * from emp";
+		
+ List<co.edureka.Employee> l=jt.query(sql, new ResultSetExtractor<java.util.List<Employee>>()
+ {
+  public List<Employee> extractData(ResultSet rs) throws SQLException,DataAccessException 
+  {
+   List<Employee> list=new ArrayList<Employee>();  
+   while(rs.next()){  
+    Employee e=new Employee();  
+    e.setEmpno(rs.getInt(1));  
+    e.setEname(rs.getString(2));  
+    e.setSal(rs.getFloat(3));  
+    list.add(e);  
+   }  
+   return list;  
+  }  		
+ });
+ return l;
+} 
+}
+
+5) Create Bean Configuration File
+src/context.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+ <bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+ 	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+ 	<property name="url" value="jdbc:mysql://localhost:3306/edureka" />
+ 	<property name="username" value="root" />
+ 	<property name="password" value="" />
+ </bean>
+ 
+ <bean id="template" class="org.springframework.jdbc.core.JdbcTemplate">
+ 	<property name="dataSource" ref="ds"/>
+ </bean>
+ 
+ <bean id="empdao" class="co.edureka.EmployeeDAO">
+ 	<property name="jt" ref="template" />
+ </bean>
+ 
+</beans>
+
+-----------------------------
+String sql = "SELECT * from contact where contact_id="+id;
+ ResultSetExtractor<Contact> extractor = new ResultSetExtractor<Contact>() {
+   public Contact extractData(ResultSet rs) throws SQLException, DataAccessException {
+     if(rs.next()) {
+	String name = rs.getString("name");
+	String email = rs.getString("email");
+	String address = rs.getString("address");
+	String phone = rs.getString("phone");
+	return new Contact(name,email,address,phone);
+     }
+     return null;
+   }			
+ };
+	
+return jdbcTemplate.query(sql, extractor);
+-----------------------------
+
+6) Main.java
+
+package co.edureka;
+
+import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Main 
+{
+ public static void main(String[] args) 
+ {
+  ApplicationContext context=new ClassPathXmlApplicationContext("context.xml");
+  DAO dao=context.getBean("edao", DAO.class);
+		
+  /*Employee emp=new Employee(103,"Srinivas",123.45f);
+    dao.saveEmp(emp);*/
+		
+  /*Employee emp=new Employee(101,"Ajay Shankar",222.22f);
+    dao.updateEmp(emp);*/
+		
+    List<co.edureka.Employee> emps=dao.getEmployees();
+    for(Employee e : emps) {
+	System.out.println(e);
+    }
+  }
+}

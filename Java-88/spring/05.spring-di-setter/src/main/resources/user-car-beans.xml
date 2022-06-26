@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="audi" class="co.edureka.spring.core.beans.Car">
+		<property name="model" value="Audi Car"/>
+		<property name="cost" value="7500000"/>
+	</bean>
+	
+	<bean id="customer1" class="co.edureka.spring.core.beans.User">
+		<property name="firstName" value="Sanjay"/>
+		<property name="lastName" value="Dutt"/>
+		<property name="car" ref="audi"/>
+	</bean>
+</beans>

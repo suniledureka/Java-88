@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-mapping>
+	<class name="co.edureka.hibernate.entity.Faculty" table="faculty">
+		<id name="facultyId" column="facid">
+			<generator class="assigned"/>
+		</id>
+		<property name="facultyName" column="facname"/>
+		<set name="batches" cascade="all" inverse="true">
+			<key>
+				<column name="facid"/>
+			</key>
+			<one-to-many class="co.edureka.hibernate.entity.Batch"/>
+		</set>
+	</class>
+	
+	<class name="co.edureka.hibernate.entity.Batch" table="batch">
+		<id name="batchId" column="batchid">
+			<generator class="assigned"/>
+		</id>
+		<property name="course" column="course"/>
+		<many-to-one name="faculty" class="co.edureka.hibernate.entity.Faculty">
+			<column name="facid"/>
+		</many-to-one>
+	</class>	
+</hibernate-mapping>
