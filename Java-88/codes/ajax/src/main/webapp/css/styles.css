@@ -1,0 +1,18 @@
+body{
+	background-color:aquamarine;
+}
+table{
+	width:490px;
+	margin:130px auto;
+	font-size:18px;
+	background:linear-gradient(to right,black,darkred,black);
+	color:white;
+	padding:10px;
+	border-radius:10px;
+}
+tr{
+	height:50px;
+}
+input{
+	font-size:18px;
+}

@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>edureka | student registration</title>
+<style>
+table {
+	width: 450px;
+	margin: 100px auto;
+	padding: 10px;
+	background: linear-gradient(45deg, black 50%, orangered 50%);
+	border-radius: 15px;
+	box-shadow: 0 0 10px black;
+	color: white;
+	font-size: 20px;
+}
+
+input {
+	font-size: 20px;
+	display:block;
+}
+
+tr {
+	height: 45px;
+}
+</style>
+</head>
+<body>
+    <form action="rest/customers/register" method="post">
+	<table>
+	<caption style="color:black;margin:10px;">Student | Registration</caption>
+		<tr>
+			<td>Name</td>
+			<td><input type="text" size=20 autofocus required name="name_field"></td>
+		</tr>
+
+		<tr>
+			<td>Age</td>
+			<td><input type="text" name="age_field" size=20></td>			
+		</tr>
+
+		<tr>
+			<td>Address</td>
+			<td><input type="text" name="addr_field" size=20></span></td>
+		</tr>
+		
+		<tr>
+		  <td colspan=2 align=center>
+		  <input type="submit" value="R E G I S T E R">
+		  </td>
+		</tr>
+	</table>
+	</form>
+</body>
+</html>
